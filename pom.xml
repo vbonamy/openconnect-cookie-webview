@@ -6,13 +6,11 @@
 	<groupId>org.esupportail.openconnect</groupId>
 	<artifactId>openconnect</artifactId>
 	<version>${revision}</version>
-	<packaging>pom</packaging>
 	<name>openconnect-cookie-webview</name>
 	<url>http://maven.apache.org</url>
 	<properties>
 		<revision>1.0-SNAPSHOT</revision>
-		<spring.version>6.2.2</spring.version>
-		<jackson.version>2.18.2</jackson.version>
+		<spring.version>6.2.5</spring.version>
 		<slf4j.version>2.0.16</slf4j.version>
 		<java.version>17</java.version>
 		<openjfx.version>17</openjfx.version>
@@ -137,13 +135,6 @@
 	<build>
 		<plugins>
 			<plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>${java.version}</source>
-					<target>${java.version}</target>
-				</configuration>
-			</plugin>
-			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-dependency-plugin</artifactId>
 				<version>3.7.1</version>
@@ -151,10 +142,15 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.13.0</version>
+				<version>3.10.1</version>
 				<configuration>
 					<source>${java.version}</source>
 					<target>${java.version}</target>
+					<fork>true</fork>
+					<compilerArgs>
+						<arg>-Xlint:all</arg>
+						<arg>-parameters</arg>
+					</compilerArgs>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -163,7 +159,6 @@
 				<version>0.0.8</version>
 				<configuration>
 					<mainClass>org.esupportail.openconnect.OpenconnectApplication</mainClass>
-					<skip>true</skip>
 				</configuration>
 			</plugin>
 			<plugin>

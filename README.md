@@ -9,7 +9,7 @@ The DSID cookie, obtained after MFA login, is a session cookie used by the VPN s
 ## Installation (Linux/Debian)
 To use OpenConnect Cookie WebView on a Debian-based Linux system, you need to install the following dependencies:
 
-Install maven, OpenJDK 17 or newer, openjfx and openconnect:
+Install maven, *OpenJDK 17*, openjfx and openconnect:
 
 ```
 apt install maven openjdk-17-jdk openjfx openconnect
@@ -27,7 +27,12 @@ You can then run the application using:
 mvn javafx:run
 ```
 
-Alternatively, run it as a standard Java application with proper JavaFX module options.
+Alternatively, run it as a standard Java application with proper JavaFX module options :
+
+```bash
+mvn clean package
+java --module-path /usr/share/openjfx/lib/ --add-modules javafx.controls,javafx.fxml,javafx.base,javafx.media,javafx.graphics,javafx.swing,javafx.web -jar target/openconnect-cookie-webview.jar
+```
 
 ## Usage
 Launch the application.
