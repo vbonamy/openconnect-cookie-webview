@@ -26,9 +26,9 @@
         <menus>
             <Menu mnemonicParsing="false" text="Main">
                <items>
-                  <MenuItem fx:id="configurationVpnUrl" mnemonicParsing="false" text="Configuration VPN" />
-                   <MenuItem fx:id="configurationOpenconnectCommand" mnemonicParsing="false" text="Configuration commande OpenConnect" />
-                  <MenuItem fx:id="exit" mnemonicParsing="false" text="Quitter" />
+                  <MenuItem fx:id="configurationVpnUrl" mnemonicParsing="false" text="VPN configuration" />
+                   <MenuItem fx:id="configurationOpenconnectCommand" mnemonicParsing="false" text="OpenConnect command configuration" />
+                  <MenuItem fx:id="exit" mnemonicParsing="false" text="Exit" />
                </items>
             </Menu>
         </menus>

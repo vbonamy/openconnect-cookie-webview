@@ -72,7 +72,7 @@ public class OpenconnectJfxController implements Initializable {
 
 		String vpnUrl = fileLocalStorage.getItem("vpnUrl");
 		TextInputDialog td = new TextInputDialog(vpnUrl);
-		td.setHeaderText("Url de votre VPN");
+		td.setHeaderText("Url of VPN");
 		td.setContentText("https://vpn.example.org");
 		td.getDialogPane().setMinWidth(1000);
 		td.setResizable(true);
@@ -88,7 +88,7 @@ public class OpenconnectJfxController implements Initializable {
 
 		String openconnectCommand = fileLocalStorage.getItem("openconnectCommand");
 		TextInputDialog td2 = new TextInputDialog(openconnectCommand);
-		td2.setHeaderText("Commande Openconnect");
+		td2.setHeaderText("Openconnect command");
 		td2.setContentText("su -c '/sbin/openconnect --protocol=nc %s -C %s'");
 		td2.getDialogPane().setMinWidth(1000);
 		td2.setResizable(true);
