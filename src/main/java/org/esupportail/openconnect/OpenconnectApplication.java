@@ -36,8 +36,8 @@ public class OpenconnectApplication extends Application {
 		Scene scene = new Scene(root);
 		primaryStage.setScene(scene);
 
-		OpenconnectJfxController OpenconnectJfxController = fxmlLoader.getController();
-		OpenconnectJfxController.initializeFromFileLocalStorage(primaryStage);
+		OpenconnectJfxController openconnectJfxController = fxmlLoader.getController();
+		openconnectJfxController.initializeFromFileLocalStorage(primaryStage);
 
 		//primaryStage.setMaximized(true);
 		primaryStage.show();
@@ -45,11 +45,11 @@ public class OpenconnectApplication extends Application {
 		primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 			@Override
 			public void handle(WindowEvent e) {
-				OpenconnectJfxController.exit();
+				openconnectJfxController.exit();
 			}
 		});
 
-		OpenconnectJfxController.logTextAreaService.appendText(String.format("Application initialized in %.2f seconds", (System.currentTimeMillis()-start)/1000.0));
+		openconnectJfxController.logTextAreaService.appendText(String.format("Application initialized in %.2f seconds", (System.currentTimeMillis()-start)/1000.0));
 	}
 
 }
