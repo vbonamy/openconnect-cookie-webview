@@ -73,3 +73,21 @@ Debugging with breakpoints may not work properly when using the Maven plugin dir
 ```
 
 Make sure to adjust the path to match your local JavaFX installation.
+
+## License
+
+This project is licensed under the Apache License 2.0. See the [LICENSE](LICENSE) file for details.
+
+## Contributing
+
+Contributions are welcome! If you have suggestions for improvements or new features, feel free to open an issue or submit a pull request.
+
+## Screenshots
+
+![Configuration](src/etc/openconnect-mfa-0.png)
+
+![Authentication with MFA, login/password page](src/etc/openconnect-mfa-1.png)
+
+![Authentication with MFA, One-Time Password (OTP) page](src/etc/openconnect-mfa-2.png)
+
+![Authentication, DSID cookie extraction and OpenConnect command execution](src/etc/openconnect-mfa-3.png)
