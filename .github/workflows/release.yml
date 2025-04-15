@@ -1,0 +1,42 @@
+name: Build and Release Jar
+
+on:
+  push:
+    tags:
+      - 'openconnect-cookie-webview-*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Extract version from tag
+        id: version
+        run: |
+          TAG_NAME="${GITHUB_REF##*/}"
+          VERSION="${TAG_NAME#openconnect-cookie-webview-}"
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Build JAR with Maven
+        run: mvn clean package
+
+      - name: Create GitHub Release and upload JAR
+        uses: softprops/action-gh-release@v2
+        with:
+          name: "Release ${{ steps.version.outputs.version }}"
+          tag_name: ${{ github.ref_name }}
+          files: target/openconnect-cookie-webview-${{ steps.version.outputs.version }}.jar
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

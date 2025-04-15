@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.esupportail.openconnect</groupId>
-	<artifactId>openconnect</artifactId>
+	<artifactId>openconnect-cookie-webview</artifactId>
 	<version>${revision}</version>
 	<name>openconnect-cookie-webview</name>
 	<url>http://maven.apache.org</url>
@@ -166,7 +166,6 @@
 				<artifactId>maven-assembly-plugin</artifactId>
 				<version>3.7.0</version>
 				<configuration>
-					<finalName>openconnect-cookie-webview</finalName>
 					<descriptorRefs>
 						<descriptorRef>jar-with-dependencies</descriptorRef>
 					</descriptorRefs>

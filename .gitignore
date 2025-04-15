@@ -6,3 +6,5 @@
 !pom.xml
 !README.md
 !LICENSE
+!.github/
+!.github/**
