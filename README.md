@@ -9,7 +9,7 @@ The DSID cookie, obtained after MFA login, is a session cookie used by the VPN s
 ## Installation (Linux/Debian)
 To use OpenConnect Cookie WebView on a Debian-based Linux system, you need to install the following dependencies:
 
-Install maven, *OpenJDK 17*, openjfx and openconnect:
+Install maven, *OpenJDK 17* (or greater) , openjfx and openconnect:
 
 ```
 apt install maven openjdk-17-jdk openjfx openconnect
@@ -27,8 +27,8 @@ Next, configure the application clicking on the **VPN Configuration** button and
 
 You can now use the application to authenticate to your VPN service (with MFA if needed).
 
-If you don't see cookies in the logs tab, there is a problem with the cookie extraction with your version of Java : 
-this application is working with OpenJDK 17 and OpenJFX 17 **only**.
+If you have problems with the JavaFX installation, you can try to install a Zulu JDK with JavaFX included. You can find the Zulu JDK-FX on the [Azul website](https://www.azul.com/downloads/?package=jdk-fx#zulu).
+
 
 ## Build and Run from Source
 

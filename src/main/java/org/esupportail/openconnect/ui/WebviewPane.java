@@ -39,11 +39,12 @@ public class WebviewPane extends StackPane {
 
     public void init() throws HeadlessException {
 
-        CookieManager cookieManager = new CookieManager();
-        CookieHandler.setDefault(cookieManager);
+        CookieManager cookieManager = (CookieManager) CookieHandler.getDefault();
 
         webView = new WebView();
         webView.getEngine().setJavaScriptEnabled(true);
+
+        // set cookie handler of http client of webengine to cookieManager
 
         String url = fileLocalStorage.getItem("vpnUrl");
         URI uri = null;
@@ -71,12 +72,7 @@ public class WebviewPane extends StackPane {
                         }
                     }
                 } else {
-                    logTextAreaService.appendText("webView cookie : no cookies with the CookieHandler from webview");
-                    // verify java version : jdk must be 17
-                    String javaVersion = System.getProperty("java.version");
-                    if (!javaVersion.startsWith("17")) {
-                        logTextAreaService.appendText("Java version is not 17, please use Java 17 !s");
-                    }
+                    logTextAreaService.appendText("webView cookie : no cookies with the CookieHandler from webview !?");
                 }
                 logTextAreaService.appendText("cookies : " + StringUtils.join(cookies, "\n"));
             }

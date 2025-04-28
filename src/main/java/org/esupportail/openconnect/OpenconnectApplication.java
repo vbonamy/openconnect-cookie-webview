@@ -14,6 +14,8 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.springframework.context.annotation.ComponentScan;
 
 import java.io.IOException;
+import java.net.CookieHandler;
+import java.net.CookieManager;
 import java.net.URL;
 
 @ComponentScan
@@ -24,6 +26,12 @@ public class OpenconnectApplication extends Application {
 	public void start(final Stage primaryStage) throws IOException {
 
 		long start = System.currentTimeMillis();
+
+		// Set the default cookie manager to handle cookies
+		// that must called before any http request so that HttpClient use it
+		CookieManager cookieManager = new CookieManager();
+		CookieHandler.setDefault(cookieManager);
+		log.info("cookiemanger is ok");
 
 		ApplicationContext context = new AnnotationConfigApplicationContext(OpenconnectApplication.class);
 		
