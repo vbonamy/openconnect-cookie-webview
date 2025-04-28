@@ -27,6 +27,9 @@ Next, configure the application clicking on the **VPN Configuration** button and
 
 You can now use the application to authenticate to your VPN service (with MFA if needed).
 
+If you don't see cookies in the logs tab, there is a problem with the cookie extraction with your version of Java : 
+this application is working with OpenJDK 17 and OpenJFX 17 **only**.
+
 ## Build and Run from Source
 
 Clone the project :

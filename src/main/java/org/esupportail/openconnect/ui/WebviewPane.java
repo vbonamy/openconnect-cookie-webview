@@ -16,6 +16,7 @@ import javax.annotation.Resource;
 import java.awt.*;
 import java.net.*;
 import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class WebviewPane extends StackPane {
@@ -58,13 +59,23 @@ public class WebviewPane extends StackPane {
             logTextAreaService.appendText("webView state : " + newValue);
             ArrayList<String> cookies = new ArrayList<>();
             if(Worker.State.SUCCEEDED.equals(newValue)) {
-                for (HttpCookie cookie : cookieManager.getCookieStore().getCookies()) {
-                    cookies.add("webView cookie : " + cookie.getName().concat("=").concat(cookie.getValue()));
-                    if ("DSID".equals(cookie.getName())) {
-                        String dsid = cookie.getValue();
-                        logTextAreaService.appendText("DSID : " + dsid);
-                        fileLocalStorage.setItem("dsid", dsid);
-                        openConnectTerminal.startOpenconnect(url, dsid);
+                List<HttpCookie> cookieList = cookieManager.getCookieStore().getCookies();
+                if (cookieList != null && !cookieList.isEmpty()) {
+                    for (HttpCookie cookie : cookieManager.getCookieStore().getCookies()) {
+                        cookies.add("webView cookie : " + cookie.getName().concat("=").concat(cookie.getValue()));
+                        if ("DSID".equals(cookie.getName())) {
+                            String dsid = cookie.getValue();
+                            logTextAreaService.appendText("DSID : " + dsid);
+                            fileLocalStorage.setItem("dsid", dsid);
+                            openConnectTerminal.startOpenconnect(url, dsid);
+                        }
+                    }
+                } else {
+                    logTextAreaService.appendText("webView cookie : no cookies with the CookieHandler from webview");
+                    // verify java version : jdk must be 17
+                    String javaVersion = System.getProperty("java.version");
+                    if (!javaVersion.startsWith("17")) {
+                        logTextAreaService.appendText("Java version is not 17, please use Java 17 !s");
                     }
                 }
                 logTextAreaService.appendText("cookies : " + StringUtils.join(cookies, "\n"));
