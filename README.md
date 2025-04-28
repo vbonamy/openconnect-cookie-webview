@@ -15,6 +15,20 @@ Install maven, *OpenJDK 17*, openjfx and openconnect:
 apt install maven openjdk-17-jdk openjfx openconnect
 ```
 
+Get the latest version of jar of openconnect-cookie-webview from [GitHub](https://github.com/vbonamy/openconnect-cookie-webview/releases).
+
+And run it with the following command:
+
+```bash
+java --module-path /usr/share/openjfx/lib/ --add-modules javafx.controls,javafx.fxml,javafx.base,javafx.media,javafx.graphics,javafx.swing,javafx.web -jar openconnect-cookie-webview-1.0.jar
+```
+
+Next, configure the application clicking on the **VPN Configuration** button and **OpenConnect command configuration** in the **Main* menu.
+
+You can now use the application to authenticate to your VPN service (with MFA if needed).
+
+## Build and Run from Source
+
 Clone the project :
 
 ```
@@ -31,7 +45,7 @@ Alternatively, run it as a standard Java application with proper JavaFX module o
 
 ```bash
 mvn clean package
-java --module-path /usr/share/openjfx/lib/ --add-modules javafx.controls,javafx.fxml,javafx.base,javafx.media,javafx.graphics,javafx.swing,javafx.web -jar target/openconnect-cookie-webview.jar
+java --module-path /usr/share/openjfx/lib/ --add-modules javafx.controls,javafx.fxml,javafx.base,javafx.media,javafx.graphics,javafx.swing,javafx.web -jar target/openconnect-cookie-webview-1.1-SNAPSHOT.jar
 ```
 
 ## Usage
