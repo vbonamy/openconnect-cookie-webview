@@ -11,9 +11,6 @@ import javax.annotation.Resource;
 public class JavaScriptConsoleBridge {
 
     @Resource
-    FileLocalStorage fileLocalStorage;
-
-    @Resource
     LogTextAreaService logTextAreaService;
 	
 	private final static Logger log = LoggerFactory.getLogger(JavaScriptConsoleBridge.class);

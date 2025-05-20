@@ -2,19 +2,20 @@ package org.esupportail.openconnect;
 
 import com.kodedu.terminalfx.TerminalBuilder;
 import com.kodedu.terminalfx.TerminalTab;
+import javafx.beans.property.SimpleBooleanProperty;
 import org.esupportail.openconnect.ui.FileLocalStorage;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
 
 @Component
 public class OpenConnectTerminal {
 
-    @Resource
-    FileLocalStorage fileLocalStorage;
+    FileLocalStorage fileLocalStorage = FileLocalStorage.getInstance();
 
     TerminalTab terminal;
+
+    SimpleBooleanProperty isOpenConnectRunning = new SimpleBooleanProperty(false);
 
     @PostConstruct
     public void init() {
@@ -31,5 +32,4 @@ public class OpenConnectTerminal {
         String openconnectCommand = String.format(openconnectCommandConfiguration + "\r", vpnUrl, dsidCookie);
         terminal.getTerminal().command(openconnectCommand);
     }
-
 }

@@ -23,13 +23,14 @@ public class WebviewPane extends StackPane {
 
     private final static Logger log = LoggerFactory.getLogger(WebviewPane.class);
 
+    public final static String DSID_COOKIE_NAME = "DSID";
+
     WebView webView;
 
     @Resource
     JavaScriptConsoleBridge javaScriptConsoleBridge;
 
-    @Resource
-    FileLocalStorage fileLocalStorage;
+    FileLocalStorage fileLocalStorage = FileLocalStorage.getInstance();
 
     @Resource
     LogTextAreaService logTextAreaService;
@@ -47,15 +48,7 @@ public class WebviewPane extends StackPane {
         // set cookie handler of http client of webengine to cookieManager
 
         String url = fileLocalStorage.getItem("vpnUrl");
-        URI uri = null;
-        try {
-            uri = new URI(url);
-        } catch (URISyntaxException e) {
-            throw new RuntimeException(e);
-        }
-        final URI finalUri = uri;
 
-        logTextAreaService.appendText("webView load : " + url);
         webView.getEngine().getLoadWorker().stateProperty().addListener((observable, oldValue, newValue) -> {
             logTextAreaService.appendText("webView state : " + newValue);
             ArrayList<String> cookies = new ArrayList<>();
@@ -64,11 +57,12 @@ public class WebviewPane extends StackPane {
                 if (cookieList != null && !cookieList.isEmpty()) {
                     for (HttpCookie cookie : cookieManager.getCookieStore().getCookies()) {
                         cookies.add("webView cookie : " + cookie.getName().concat("=").concat(cookie.getValue()));
-                        if ("DSID".equals(cookie.getName())) {
+                        if (DSID_COOKIE_NAME.equalsIgnoreCase(cookie.getName())) {
                             String dsid = cookie.getValue();
-                            logTextAreaService.appendText("DSID : " + dsid);
-                            fileLocalStorage.setItem("dsid", dsid);
-                            openConnectTerminal.startOpenconnect(url, dsid);
+                            logTextAreaService.appendText(DSID_COOKIE_NAME + " : " + dsid);
+                            fileLocalStorage.setItem(DSID_COOKIE_NAME, dsid);
+                            String vpnUrl = fileLocalStorage.getItem("vpnUrl");
+                            openConnectTerminal.startOpenconnect(vpnUrl, dsid);
                         }
                     }
                 } else {
@@ -80,7 +74,13 @@ public class WebviewPane extends StackPane {
 
         webView.getEngine().getLoadWorker().exceptionProperty().addListener((ov, t, t1) -> log.error(");Received exception: " + t1.getMessage(), t1));
 
-        webView.getEngine().load(url);
+        if(url != null && !url.contains("example.org")) {
+            logTextAreaService.appendText("webView load : " + url);
+            webView.getEngine().load(url);
+        } else {
+            // open configuration menu
+            logTextAreaService.appendText("Please configure your VPN url with Main < VPN configuration");
+        }
 
         webView.getEngine().locationProperty().addListener(new ChangeListener<String>() {
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {

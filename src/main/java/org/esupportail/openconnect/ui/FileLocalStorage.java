@@ -20,18 +20,22 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
-@Component
 public class FileLocalStorage {
 
 	private final static Logger log = LoggerFactory.getLogger(FileLocalStorage.class);
 
 	private File file;
 
-	@javax.annotation.Resource
-	LogTextAreaService logTextAreaService;
+	static FileLocalStorage singleton;
 
-	@PostConstruct
-	void initLocalStorageFile() {
+	public static FileLocalStorage getInstance() {
+		if (singleton == null) {
+			singleton = new FileLocalStorage();
+		}
+		return singleton;
+	}
+
+	FileLocalStorage() {
 		String localStorageName = "openconnect-cookie-webview.storage";
 		Properties prop = new Properties();
 		Resource resource = new ClassPathResource("openconnect-cookie-webview.properties");
@@ -66,7 +70,11 @@ public class FileLocalStorage {
 	}
 
 	public String getItem(String key) {
-		String value = "";
+		return getItem(key, String.class);
+	}
+
+	public <T> T getItem(String key, Class<T> clazz) {
+		Object value = "";
 		try {
 			FileInputStream fis = new FileInputStream(file);
 			ObjectInputStream ois = new ObjectInputStream(fis);
@@ -80,18 +88,20 @@ public class FileLocalStorage {
 		} catch (Exception e) {
 			log.error("error on read/create localstorage", e);
 		}
-		return value;
+		if (clazz != null && clazz.isInstance(value)) {
+			return clazz.cast(value);
+		}
+		return null;
 	}
 
-	public void setItem(String key, String value) {
+	public synchronized <T> void setItem(String key, T value) {
 		log.trace("init write : " + key);
-
-		Map<String, String> item = new HashMap<String, String>();
+		Map<String, Object> item = new HashMap<String, Object>();
 		try {
 			FileInputStream fis = new FileInputStream(file);
 			try {
 				ObjectInputStream ois = new ObjectInputStream(fis);
-				item = (HashMap<String, String>) ois.readObject();
+				item = (HashMap<String, Object>) ois.readObject();
 				ois.close();
 			} catch (Exception e) {
 				log.warn("error on read localstorage");

@@ -7,15 +7,18 @@ import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import org.esupportail.openconnect.ui.FileLocalStorageCookieStore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 
+import javax.annotation.Resource;
 import java.io.IOException;
 import java.net.CookieHandler;
 import java.net.CookieManager;
+import java.net.CookieStore;
 import java.net.URL;
 
 @ComponentScan
@@ -29,14 +32,15 @@ public class OpenconnectApplication extends Application {
 
 		// Set the default cookie manager to handle cookies
 		// that must called before any http request so that HttpClient use it
-		CookieManager cookieManager = new CookieManager();
+		FileLocalStorageCookieStore cookieStore = new FileLocalStorageCookieStore();
+		CookieManager cookieManager = new CookieManager(cookieStore, null);
 		CookieHandler.setDefault(cookieManager);
 		log.info("cookiemanger is ok");
 
-		ApplicationContext context = new AnnotationConfigApplicationContext(OpenconnectApplication.class);
-		
 		primaryStage.setTitle("Openconnect Cookie Webview");
 
+
+		ApplicationContext context = new AnnotationConfigApplicationContext(OpenconnectApplication.class);
 		URL fxmlUrl = this.getClass().getClassLoader().getResource("openconnect-cookie-webview.fxml");
 		FXMLLoader fxmlLoader = new FXMLLoader(fxmlUrl);
 		fxmlLoader.setControllerFactory(cls -> context.getBean(cls));
