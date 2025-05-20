@@ -102,9 +102,9 @@
 			<version>${slf4j.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-reload4j</artifactId>
-			<version>${slf4j.version}</version>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>1.5.18</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-io</groupId>
@@ -192,22 +192,5 @@
 				</executions>
 			</plugin>
 		</plugins>
-		<resources>
-			<resource>
-				<directory>src/main/resources</directory>
-				<filtering>true</filtering>
-				<excludes>
-					<exclude>log4j.properties</exclude>
-				</excludes>
-			</resource>
-			<resource>
-				<directory>src/main/resources</directory>
-				<filtering>false</filtering>
-				<includes>
-					<!-- Openconnect Cookie Webview-installer uses ${user.home} in log4j.properties and don't have to be replaced at the build phase but at the runtime phase -->
-					<include>log4j.properties</include>
-				</includes>
-			</resource>
-		</resources>
 	</build>
 </project>
