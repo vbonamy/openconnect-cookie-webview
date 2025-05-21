@@ -45,10 +45,6 @@ public class WebviewPane extends StackPane {
         webView = new WebView();
         webView.getEngine().setJavaScriptEnabled(true);
 
-        // set cookie handler of http client of webengine to cookieManager
-
-        String url = fileLocalStorage.getItem("vpnUrl");
-
         webView.getEngine().getLoadWorker().stateProperty().addListener((observable, oldValue, newValue) -> {
             logTextAreaService.appendText("webView state : " + newValue);
             ArrayList<String> cookies = new ArrayList<>();
@@ -74,19 +70,10 @@ public class WebviewPane extends StackPane {
 
         webView.getEngine().getLoadWorker().exceptionProperty().addListener((ov, t, t1) -> log.error(");Received exception: " + t1.getMessage(), t1));
 
-        if(url != null && !url.contains("example.org")) {
-            logTextAreaService.appendText("webView load : " + url);
-            webView.getEngine().load(url);
-        } else {
-            // open configuration menu
-            logTextAreaService.appendText("Please configure your VPN url with Main < VPN configuration");
-        }
-
         webView.getEngine().locationProperty().addListener(new ChangeListener<String>() {
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 log.info("webView load : " + newValue);
             }
-
         });
         StackPane webviewPane = new StackPane(webView);
         getChildren().add(webviewPane);

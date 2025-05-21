@@ -8,6 +8,7 @@ import javafx.stage.Stage;
 import org.esupportail.openconnect.ui.FileLocalStorage;
 import org.esupportail.openconnect.ui.LogTextAreaService;
 import org.esupportail.openconnect.ui.WebviewPane;
+import org.esupportail.openconnect.utils.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -64,8 +65,7 @@ public class OpenconnectJfxController implements Initializable {
 			this.exit();
 		});
 
-		String vpnUrl = fileLocalStorage.getItem("vpnUrl");
-		TextInputDialog td = new TextInputDialog(vpnUrl);
+		TextInputDialog td = new TextInputDialog(fileLocalStorage.getItem("vpnUrl"));
 		td.setHeaderText("Url of VPN");
 		td.setContentText("https://vpn.example.org");
 		td.getDialogPane().setMinWidth(1000);
@@ -101,6 +101,17 @@ public class OpenconnectJfxController implements Initializable {
 		TabPane tabPane = new TabPane();
 		tabPane.getTabs().add(openConnectTerminal.getTerminal());
 		mainPane2.getItems().add(tabPane);
+
+		Platform.runLater(() -> {
+			String vpnUrl = fileLocalStorage.getItem("vpnUrl");
+			if (vpnUrl == null || vpnUrl.contains("example.org")) {
+				// open configuration menu
+				logTextAreaService.appendText("Please configure your VPN url with Main < VPN configuration");
+				configurationVpnUrl.fire();
+			} else {
+				webviewPane.reload();
+			}
+		});
 	}
 
 	public void initializeFromFileLocalStorage(Stage stage) {
