@@ -77,13 +77,9 @@ This application is built with **Java**, **Spring**, and **JavaFX**, and uses **
 
 You can use **Eclipse** (e.g., via Spring Tools) or **IntelliJ IDEA** for development.
 
-To run the project from the command line, use:
-```bash
-mvn javafx:run
-```
+Run the application as a standard Java application with the JavaFX module options specified.
 
-## Debugging in IDE
-Debugging with breakpoints may not work properly when using the Maven plugin directly from your IDE. For better debugging support, run the application as a standard Java application instead. In that case, you will need to manually specify the JavaFX module options. For example:
+For example:
 
 ```bash
 --module-path /usr/share/openjfx/lib/ --add-modules javafx.controls,javafx.fxml,javafx.base,javafx.media,javafx.graphics,javafx.swing,javafx.web

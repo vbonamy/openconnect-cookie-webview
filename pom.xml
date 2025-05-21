@@ -154,14 +154,6 @@
 				</configuration>
 			</plugin>
 			<plugin>
-				<groupId>org.openjfx</groupId>
-				<artifactId>javafx-maven-plugin</artifactId>
-				<version>0.0.8</version>
-				<configuration>
-					<mainClass>org.esupportail.openconnect.OpenconnectApplication</mainClass>
-				</configuration>
-			</plugin>
-			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-assembly-plugin</artifactId>
 				<version>3.6.0</version>
