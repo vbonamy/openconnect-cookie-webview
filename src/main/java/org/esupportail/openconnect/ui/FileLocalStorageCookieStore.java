@@ -301,13 +301,7 @@ public class FileLocalStorageCookieStore implements CookieStore {
     }
 
 
-    void persistInFileLocalStorage() {
-        /*
-        fileLocalStorage.setItem("cookieJar", cookieJar);
-        fileLocalStorage.setItem("domainIndex", domainIndex);
-        fileLocalStorage.setItem("uriIndex", uriIndex);
-        fileLocalStorage.setItem("lock", lock);
-         */
+    synchronized void persistInFileLocalStorage() {
         List<Map<String, String>> cookieJarSerialized = new ArrayList<>();
         for (HttpCookie cookie : cookieJar) {
             cookieJarSerialized.add(serializeCookie(cookie));
