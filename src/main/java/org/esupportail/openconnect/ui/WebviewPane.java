@@ -51,7 +51,7 @@ public class WebviewPane extends StackPane {
             if(Worker.State.SUCCEEDED.equals(newValue)) {
                 List<HttpCookie> cookieList = cookieManager.getCookieStore().getCookies();
                 if (cookieList != null && !cookieList.isEmpty()) {
-                    for (HttpCookie cookie : cookieManager.getCookieStore().getCookies()) {
+                    for (HttpCookie cookie : cookieList) {
                         cookies.add("webView cookie : " + cookie.getName().concat("=").concat(cookie.getValue()));
                         if (DSID_COOKIE_NAME.equalsIgnoreCase(cookie.getName())) {
                             String dsid = cookie.getValue();
