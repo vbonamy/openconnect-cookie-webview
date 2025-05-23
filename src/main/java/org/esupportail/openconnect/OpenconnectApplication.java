@@ -1,12 +1,14 @@
 package org.esupportail.openconnect;
 
+import dorkbox.systemTray.MenuItem;
+import dorkbox.systemTray.SystemTray;
 import javafx.application.Application;
-import javafx.event.EventHandler;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
+import javafx.stage.StageStyle;
 import org.esupportail.openconnect.ui.FileLocalStorageCookieStore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,11 +16,9 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 
-import javax.annotation.Resource;
 import java.io.IOException;
 import java.net.CookieHandler;
 import java.net.CookieManager;
-import java.net.CookieStore;
 import java.net.URL;
 
 @ComponentScan
@@ -39,7 +39,6 @@ public class OpenconnectApplication extends Application {
 
 		primaryStage.setTitle("Openconnect Cookie Webview");
 
-
 		ApplicationContext context = new AnnotationConfigApplicationContext(OpenconnectApplication.class);
 		URL fxmlUrl = this.getClass().getClassLoader().getResource("openconnect-cookie-webview.fxml");
 		FXMLLoader fxmlLoader = new FXMLLoader(fxmlUrl);
@@ -51,17 +50,53 @@ public class OpenconnectApplication extends Application {
 		OpenconnectJfxController openconnectJfxController = fxmlLoader.getController();
 		openconnectJfxController.initializeFromFileLocalStorage(primaryStage);
 
-		//primaryStage.setMaximized(true);
 		primaryStage.show();
 
-		primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-			@Override
-			public void handle(WindowEvent e) {
-				openconnectJfxController.exit();
-			}
+		setupDummyStage();
+		setupSystemTray(primaryStage);
+
+		primaryStage.setOnCloseRequest(event -> {
+			event.consume();
+			Platform.runLater(() -> {
+				primaryStage.hide();
+			});
 		});
 
 		openconnectJfxController.logTextAreaService.appendText(String.format("Application initialized in %.2f seconds", (System.currentTimeMillis()-start)/1000.0));
+	}
+
+	/*
+	 * HACK : dummy stage to keep JavaFX alive
+	 */
+	private void setupDummyStage() {
+		Stage dummyStage = new Stage();
+		dummyStage.initStyle(StageStyle.UTILITY);
+		dummyStage.setOpacity(0);
+		dummyStage.setWidth(1);
+		dummyStage.setHeight(1);
+		dummyStage.setIconified(true);
+		dummyStage.setTitle("hidden-keepalive");
+		dummyStage.show();
+
+	}
+
+	void setupSystemTray(Stage primaryStage) {
+		SystemTray tray = SystemTray.get();
+		tray.setImage(getClass().getResource("/icon-openconnect-cookie-webview.png"));
+		tray.getMenu().add(new MenuItem("Afficher", e -> {
+			System.out.println("Clicked Afficher");
+			Platform.runLater(() -> {
+				System.out.println("Platform.runLater triggered");
+				if (primaryStage != null) {
+					primaryStage.show();
+					primaryStage.toFront();
+				}
+			});
+		}));
+		tray.getMenu().add(new MenuItem("Quitter", e -> {
+			tray.shutdown();
+			Platform.exit();
+		}));
 	}
 
 }
