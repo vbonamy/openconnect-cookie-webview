@@ -52,14 +52,35 @@ public class OpenconnectApplication extends Application {
 
 		primaryStage.show();
 
-		setupDummyStage();
-		setupSystemTray(primaryStage);
-
+		boolean systemTrayEnabled = false;
+		// call setupSystemTray in thread and wait for it to finish
+		// timeout after 2 seconds
+		Thread trayThread = new Thread(() -> {
+			try {
+				setupSystemTray(primaryStage);
+			} catch (Exception e) {
+				log.error("Error setting up system tray", e);
+			}
+		});
+		trayThread.start();
+		try {
+			trayThread.join(2000);
+			systemTrayEnabled = true;
+			log.info("system tray enabled");
+		} catch (InterruptedException e) {
+			log.error("Error waiting for system tray setup", e);
+		}
+		Boolean finalSystemTrayEnabled = Boolean.valueOf(systemTrayEnabled);
+		if(finalSystemTrayEnabled) {
+			setupDummyStage();
+		}
 		primaryStage.setOnCloseRequest(event -> {
-			event.consume();
-			Platform.runLater(() -> {
-				primaryStage.hide();
-			});
+			if(finalSystemTrayEnabled) {
+				event.consume();
+				Platform.runLater(() -> {
+					primaryStage.hide();
+				});
+			}
 		});
 
 		openconnectJfxController.logTextAreaService.appendText(String.format("Application initialized in %.2f seconds", (System.currentTimeMillis()-start)/1000.0));
@@ -77,14 +98,13 @@ public class OpenconnectApplication extends Application {
 		dummyStage.setIconified(true);
 		dummyStage.setTitle("hidden-keepalive");
 		dummyStage.show();
-
 	}
 
 	void setupSystemTray(Stage primaryStage) {
 		SystemTray tray = SystemTray.get();
 		tray.setImage(getClass().getResource("/icon-openconnect-cookie-webview.png"));
-		tray.getMenu().add(new MenuItem("Afficher", e -> {
-			System.out.println("Clicked Afficher");
+		tray.getMenu().add(new MenuItem("Display it", e -> {
+			System.out.println("Clicked display");
 			Platform.runLater(() -> {
 				System.out.println("Platform.runLater triggered");
 				if (primaryStage != null) {
@@ -93,7 +113,7 @@ public class OpenconnectApplication extends Application {
 				}
 			});
 		}));
-		tray.getMenu().add(new MenuItem("Quitter", e -> {
+		tray.getMenu().add(new MenuItem("Exit", e -> {
 			tray.shutdown();
 			Platform.exit();
 		}));
