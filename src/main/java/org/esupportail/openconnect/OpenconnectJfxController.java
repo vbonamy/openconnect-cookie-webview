@@ -124,4 +124,12 @@ public class OpenconnectJfxController implements Initializable {
 		Platform.exit();
 		System.exit(0);
 	}
+
+    public void freezeWebView() {
+        webviewPane.freeze();
+    }
+
+    public void unfreezeWebView() {
+        webviewPane.unfreeze();
+    }
 }

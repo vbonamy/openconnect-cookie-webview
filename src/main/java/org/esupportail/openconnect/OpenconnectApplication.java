@@ -57,7 +57,7 @@ public class OpenconnectApplication extends Application {
 		// timeout after 2 seconds
 		Thread trayThread = new Thread(() -> {
 			try {
-				setupSystemTray(primaryStage);
+				setupSystemTray(primaryStage, openconnectJfxController);
 			} catch (Exception e) {
 				log.error("Error setting up system tray", e);
 			}
@@ -79,6 +79,7 @@ public class OpenconnectApplication extends Application {
 				event.consume();
 				Platform.runLater(() -> {
 					primaryStage.hide();
+                    openconnectJfxController.freezeWebView();
 				});
 			}
 		});
@@ -100,7 +101,7 @@ public class OpenconnectApplication extends Application {
 		dummyStage.show();
 	}
 
-	void setupSystemTray(Stage primaryStage) {
+	void setupSystemTray(Stage primaryStage, OpenconnectJfxController openconnectJfxController) {
 		SystemTray tray = SystemTray.get();
 		tray.setImage(getClass().getResource("/icon-openconnect-cookie-webview.png"));
 		tray.getMenu().add(new MenuItem("Display it", e -> {
@@ -110,6 +111,7 @@ public class OpenconnectApplication extends Application {
 				if (primaryStage != null) {
 					primaryStage.show();
 					primaryStage.toFront();
+                    openconnectJfxController.unfreezeWebView();
 				}
 			});
 		}));

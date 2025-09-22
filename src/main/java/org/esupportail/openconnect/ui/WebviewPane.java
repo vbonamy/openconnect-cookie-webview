@@ -90,4 +90,17 @@ public class WebviewPane extends StackPane {
             }
         });
     }
+
+    public void freeze() {
+        Utils.jfxRunLaterIfNeeded(new Runnable() {
+            @Override
+            public void run() {
+                webView.getEngine().load("about:blank");
+            }
+        });
+    }
+
+    public void unfreeze() {
+        reload();
+    }
 }
