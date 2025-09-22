@@ -10,6 +10,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.esupportail.openconnect.ui.FileLocalStorageCookieStore;
+import org.esupportail.openconnect.utils.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
@@ -26,7 +27,15 @@ public class OpenconnectApplication extends Application {
 
 	private final static Logger log = LoggerFactory.getLogger(OpenconnectApplication.class);
 
+    OpenconnectJfxController openconnectJfxController;
+
+    Stage primaryStage;
+
+    Stage dummyStage;
+
 	public void start(final Stage primaryStage) throws IOException {
+
+        this.primaryStage = primaryStage;
 
 		long start = System.currentTimeMillis();
 
@@ -47,7 +56,7 @@ public class OpenconnectApplication extends Application {
 		Scene scene = new Scene(root);
 		primaryStage.setScene(scene);
 
-		OpenconnectJfxController openconnectJfxController = fxmlLoader.getController();
+		openconnectJfxController = fxmlLoader.getController();
 		openconnectJfxController.initializeFromFileLocalStorage(primaryStage);
 
 		primaryStage.show();
@@ -57,7 +66,7 @@ public class OpenconnectApplication extends Application {
 		// timeout after 2 seconds
 		Thread trayThread = new Thread(() -> {
 			try {
-				setupSystemTray(primaryStage, openconnectJfxController);
+				setupSystemTray();
 			} catch (Exception e) {
 				log.error("Error setting up system tray", e);
 			}
@@ -91,7 +100,7 @@ public class OpenconnectApplication extends Application {
 	 * HACK : dummy stage to keep JavaFX alive
 	 */
 	private void setupDummyStage() {
-		Stage dummyStage = new Stage();
+		dummyStage = new Stage();
 		dummyStage.initStyle(StageStyle.UTILITY);
 		dummyStage.setOpacity(0);
 		dummyStage.setWidth(1);
@@ -101,7 +110,7 @@ public class OpenconnectApplication extends Application {
 		dummyStage.show();
 	}
 
-	void setupSystemTray(Stage primaryStage, OpenconnectJfxController openconnectJfxController) {
+	void setupSystemTray() {
 		SystemTray tray = SystemTray.get();
 		tray.setImage(getClass().getResource("/icon-openconnect-cookie-webview.png"));
 		tray.getMenu().add(new MenuItem("Display it", e -> {
@@ -120,5 +129,30 @@ public class OpenconnectApplication extends Application {
 			Platform.exit();
 		}));
 	}
+
+    @Override
+    public void stop() {
+        log.info("Stopping application...");
+        SystemTray tray = SystemTray.get();
+        if(tray != null) {
+            try {
+                tray.shutdown();
+            } catch (Exception e) {
+                log.error("Error shutting down system tray", e);
+            }
+        }
+        if(openconnectJfxController != null) {
+            openconnectJfxController.stop();
+        }
+        if(dummyStage != null) {
+        	dummyStage.close();
+        }
+        if(primaryStage != null) {
+        	primaryStage.close();
+        }
+        Utils.sleep(1000);
+        log.info("Application stopped.");
+        System.exit(0);
+    }
 
 }

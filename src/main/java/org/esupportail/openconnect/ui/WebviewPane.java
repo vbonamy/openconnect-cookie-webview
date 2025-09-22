@@ -103,4 +103,8 @@ public class WebviewPane extends StackPane {
     public void unfreeze() {
         reload();
     }
+
+    public void stop() {
+        freeze();
+    }
 }

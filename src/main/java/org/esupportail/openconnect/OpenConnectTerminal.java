@@ -32,4 +32,8 @@ public class OpenConnectTerminal {
         String openconnectCommand = String.format(openconnectCommandConfiguration + "\r", vpnUrl, dsidCookie);
         terminal.getTerminal().command(openconnectCommand);
     }
+
+    public void stop() {
+        terminal.getTerminal().command("exit\r");
+    }
 }

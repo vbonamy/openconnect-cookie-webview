@@ -120,10 +120,14 @@ public class OpenconnectJfxController implements Initializable {
 
 	public void exit() {
 		logTextAreaService.appendText("Arrêt demandé");
-		stage.close();
 		Platform.exit();
-		System.exit(0);
-	}
+    }
+
+    public void stop() {
+        log.info("Stopping controller...");
+        openConnectTerminal.stop();
+        webviewPane.stop();
+    }
 
     public void freezeWebView() {
         webviewPane.freeze();
