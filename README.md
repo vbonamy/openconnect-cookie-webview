@@ -39,12 +39,7 @@ git clone <repository-url>
 cd openconnect-cookie-webview
 ```
 
-You can then run the application using:
-```
-mvn javafx:run
-```
-
-Alternatively, run it as a standard Java application with proper JavaFX module options :
+Next run it as a standard Java application with proper JavaFX module options :
 
 ```bash
 mvn clean package
