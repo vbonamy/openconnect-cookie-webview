@@ -30,13 +30,13 @@ Next run it as a standard Java application with proper JavaFX module options :
 
 ```bash
 mvn clean package
-java --module-path /usr/share/openjfx/lib/ --add-modules javafx.controls,javafx.fxml,javafx.base,javafx.media,javafx.graphics,javafx.swing,javafx.web -jar target/openconnect-cookie-webview-1.4.jar
+java --module-path /usr/share/openjfx/lib/ --add-modules javafx.controls,javafx.fxml,javafx.base,javafx.media,javafx.graphics,javafx.swing,javafx.web -jar target/openconnect-cookie-webview-1.5-SNAPSHOT.jar
 ```
 
 If uou tak a Zulu JDK-FX or JRE-FX, you can skip the `--module-path` and `--add-modules` options.
  :
 ```bash
-java -jar target/openconnect-cookie-webview-1.4.jar
+java -jar target/openconnect-cookie-webview-1.5-SNAPSHOT.jar
 ```
 
 ## Usage
