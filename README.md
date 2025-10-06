@@ -15,27 +15,14 @@ Install maven, *OpenJDK 17* (or greater) , openjfx and openconnect:
 apt install maven openjdk-17-jdk openjfx openconnect
 ```
 
-Get the latest version of jar of openconnect-cookie-webview from [GitHub](https://github.com/vbonamy/openconnect-cookie-webview/releases).
-
-And run it with the following command:
-
-```bash
-java --module-path /usr/share/openjfx/lib/ --add-modules javafx.controls,javafx.fxml,javafx.base,javafx.media,javafx.graphics,javafx.swing,javafx.web -jar openconnect-cookie-webview-1.2.jar
-```
-
-Next, configure the application clicking on the **VPN Configuration** button and **OpenConnect command configuration** in the **Main* menu.
-
-You can now use the application to authenticate to your VPN service (with MFA if needed).
-
-If you have problems with the JavaFX installation, you can try to install a Zulu JDK with JavaFX included. You can find the Zulu JDK-FX on the [Azul website](https://www.azul.com/downloads/?package=jdk-fx#zulu).
-
+To simplify JavaFX installation, to install a Zulu JDK with JavaFX included. You can find the Zulu JDK-FX on the [Azul website](https://www.azul.com/downloads/?package=jdk-fx#zulu).
 
 ## Build and Run from Source
 
 Clone the project :
 
 ```
-git clone <repository-url>
+git clone https://github.com/vbonamy/openconnect-cookie-webview.git
 cd openconnect-cookie-webview
 ```
 
@@ -43,11 +30,16 @@ Next run it as a standard Java application with proper JavaFX module options :
 
 ```bash
 mvn clean package
-java --module-path /usr/share/openjfx/lib/ --add-modules javafx.controls,javafx.fxml,javafx.base,javafx.media,javafx.graphics,javafx.swing,javafx.web -jar target/openconnect-cookie-webview-1.3-SNAPSHOT.jar
+java --module-path /usr/share/openjfx/lib/ --add-modules javafx.controls,javafx.fxml,javafx.base,javafx.media,javafx.graphics,javafx.swing,javafx.web -jar target/openconnect-cookie-webview-1.3.jar
+```
+
+If uou tak a Zulu JDK-FX or JRE-FX, you can skip the `--module-path` and `--add-modules` options.
+ :
+```bash
+java -jar target/openconnect-cookie-webview-1.3.jar
 ```
 
 ## Usage
-Launch the application.
 
 In the main menu, modify configurations if necessary. You can set the following parameters:
 - **VPN URL**: The URL of your VPN service.
