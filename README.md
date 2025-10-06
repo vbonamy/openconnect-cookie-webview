@@ -9,35 +9,39 @@ The DSID cookie, obtained after MFA login, is a session cookie used by the VPN s
 ## Installation (Linux/Debian)
 To use OpenConnect Cookie WebView on a Debian-based Linux system, you need to install the following dependencies:
 
-Install maven, openconnect, *JDK 25* (or greater) , openjfx :
-
-```
-apt install maven openconnect
-```
+Install openconnect, *JDK 25* (or greater) , and eventually git, maven and openjfx :
 
 To simplify JavaFX installation, install a Zulu JDK with JavaFX included (version 25 or greater). You can find the Zulu JDK-FX on the [Azul website](https://www.azul.com/downloads/?package=jdk-fx#zulu).
 
-## Build and Run from Source
+## Get jar from Releases
 
-Clone the project :
+Download the latest release from the [Releases page](https://github.com/vbonamy/openconnect-cookie-webview/releases)
+
+## Build jar from Source
+
+If you want to  build the jar yourself, clone the project :
 
 ```
 git clone https://github.com/vbonamy/openconnect-cookie-webview.git
 cd openconnect-cookie-webview
+mvn clean package
 ```
 
-Next run it as a standard Java application with proper JavaFX module options :
+## Run 
+
+If you take a Zulu JDK-FX or JRE-FX, you can launch it simply with
+:
+```bash
+java -jar target/openconnect-cookie-webview-1.5.jar
+```
+
+If you have standard Java application with proper JavaFX module options :
 
 ```bash
 mvn clean package
 java --module-path /usr/share/openjfx/lib/ --add-modules javafx.controls,javafx.fxml,javafx.base,javafx.media,javafx.graphics,javafx.swing,javafx.web -jar target/openconnect-cookie-webview-1.5.jar
 ```
 
-If uou tak a Zulu JDK-FX or JRE-FX, you can skip the `--module-path` and `--add-modules` options.
- :
-```bash
-java -jar target/openconnect-cookie-webview-1.5.jar
-```
 
 ## Usage
 
